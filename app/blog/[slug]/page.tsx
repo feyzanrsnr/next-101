@@ -1,4 +1,3 @@
-
 type User = {
   id: string;
   name: string;
@@ -22,29 +21,24 @@ const getUser = async (id: string) : Promise<User> => {
     return json
 }
 
-const page = async () => {
-    const {
-      id,
-      name,
-      username,
-      email, 
-      address: {city},
-      phone,
-      website, 
-      company:{name:companyName}
-    } = await getUser("1")
-    
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+const page = async ({params}:Props) => {
+  const {slug} = await params
+  const user = await getUser(slug)
 
   return (
     <ul>
-      <li>ID: {id}</li>
-      <li>Name: {name}</li>
-      <li>Username: {username}</li>
-      <li>Email: {email}</li>
-      <li>City: {city}</li>
-      <li>Phone: {phone}</li>
-      <li>Website: {website}</li>
-      <li>Company Name: {companyName}</li>
+      <li>{user.id}</li>
+      <li>{user.name}</li>
+      <li>{user.username}</li>
+      <li>{user.email}</li>
+      <li>{user.address.city}</li>
+      <li>{user.phone}</li>
+      <li>{user.website}</li>
+      <li>{user.company.name}</li>
     </ul>
   )
 }
